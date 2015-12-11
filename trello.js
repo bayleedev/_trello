@@ -36,14 +36,9 @@ function hash() {
     decrypt: function(hash) {
       var tempHash, result = '';
       while (hash > minimumHash) {
-        for (var i = 0; i < letters.length; i++) {
-          tempHash = (hash - i) / key;
-          if (isWholeNumber(tempHash)) {
-            hash = tempHash;
-            result = letters[i] + result;
-            break;
-          }
-        }
+        var i = hash % 37;
+        result = letters[i] + result;
+        hash = (hash - i) / 37;
       }
       return result;
     },

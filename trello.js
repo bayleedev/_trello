@@ -1,20 +1,5 @@
-function assert(expect, result) {
-  if (expect !== result) {
-    throw "Expected '" + expect + "' did not equal output '" + result + "'";
-  } else {
-    console.log("Correct '" + expect + "' did equal output '" + result + "'");
-  }
-  return true;
-}
-
-function benchmark(name, callback, iterations) {
-  var start = Date.now(), end;
-  for (var i = 0; i < iterations; i++) {
-    callback();
-  }
-  end = Date.now();
-  console.log(name + ' Took: ' + (end - start));
-}
+var assert = require('./lib/assert.js'),
+    benchmark = require('./lib/benchmark.js');
 
 function hash() {
   var letters = "acdegilmnoprstuw",
@@ -37,9 +22,6 @@ function hash() {
         hash = (hash - i) / 37;
       }
       return result;
-    },
-    brute: function(hash) {
-      return hash;
     }
   };
 }

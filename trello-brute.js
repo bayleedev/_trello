@@ -1,11 +1,4 @@
-function assert(expect, result) {
-  if (expect !== result) {
-    throw "Expected '" + expect + "' did not equal output '" + result + "'";
-  } else {
-    console.log("Correct '" + expect + "' did equal output '" + result + "'");
-  }
-  return true;
-}
+var assert = require('./lib/assert.js');
 
 function hash() {
   var letters = "acdegilmnoprstuw",

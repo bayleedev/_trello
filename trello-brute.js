@@ -7,15 +7,6 @@ function assert(expect, result) {
   return true;
 }
 
-function benchmark(name, callback, iterations) {
-  var start = Date.now(), end;
-  for (var i = 0; i < iterations; i++) {
-    callback();
-  }
-  end = Date.now();
-  console.log(name + ' Took: ' + (end - start));
-}
-
 function hash() {
   var letters = "acdegilmnoprstuw",
     minimumHash = 7,
@@ -29,17 +20,23 @@ function hash() {
       }
       return hash;
     },
-    decrypt: function(hash) {
-      var tempHash, result = '';
-      while (hash > minimumHash) {
-        var i = hash % 37;
-        result = letters[i] + result;
-        hash = (hash - i) / 37;
+    decrypt: function(answer, maxLength, baseSet) {
+      var end = maxLength === 1,
+      decLength = maxLength - 1,
+      testSet;
+      baseSet = baseSet || '';
+      for (var charIndex = 0;charIndex < letters.length; charIndex++) {
+        testSet = baseSet + letters[charIndex];
+        if (h.encrypt(testSet) === answer) {
+          return testSet;
+        }
+        if (!end) {
+          if (result = this.decrypt(answer, decLength, testSet)) {
+            return result;
+          }
+        }
       }
-      return result;
-    },
-    brute: function(hash) {
-      return hash;
+      return false;
     }
   };
 }
@@ -53,11 +50,4 @@ assert(18108152133, h.encrypt('dialog'));
 assert(677856237601, h.encrypt('implode'));
 
 console.log('---Decrypt---');
-assert('reload', h.decrypt(18728807114));
-assert('loading', h.decrypt(680541702449));
-assert('dialog', h.decrypt(18108152133));
-assert('implode', h.decrypt(677856237601));
-benchmark('decrypt', function() {
-  h.decrypt(h.decrypt('reload'));
-}, 999999);
-console.log('answer: ', h.decrypt(930846109532517)); // lawnmower
+assert('aacd', h.decrypt(13119166, 4));

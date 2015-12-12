@@ -44,12 +44,31 @@ function hash() {
     },
     brute: function(hash) {
       return hash;
+    },
+    brute: function(answer, maxLength, baseSet) {
+      var end = maxLength === 1,
+      decLength = maxLength - 1,
+      testSet;
+      baseSet = baseSet || '';
+      for (var charIndex = 0;charIndex < letters.length; charIndex++) {
+        testSet = baseSet + letters[charIndex];
+        if (h.encrypt(testSet) === answer) {
+          return testSet;
+        }
+        if (!end) {
+          if (result = this.brute(answer, decLength, testSet)) {
+            return result;
+          }
+        }
+      }
+      return false;
     }
   };
 }
 
 var h = new hash();
 
+console.log('---Encrypt---');
 assert(18728807114, h.encrypt('reload'));
 assert(680541702449, h.encrypt('loading'));
 assert(18108152133, h.encrypt('dialog'));
@@ -65,12 +84,8 @@ benchmark('decrypt', function() {
 }, 999999);
 console.log('answer: ', h.decrypt(930846109532517)); // lawnmower
 
-console.log('---Brute Force---');
-assert('reload', h.brute(18728807114));
-assert('loading', h.brute(680541702449));
-assert('dialog', h.brute(18108152133));
-assert('implode', h.brute(677856237601));
-benchmark('brute', function() {
-  h.brute(h.brute('reload'));
-}, 999999);
-console.log('answer: ', h.brute(930846109532517)); // lawnmower
+// Got about 3 hours?
+if (false) {
+  console.log('---Brute Force---');
+  console.log('answer: ', h.brute(930846109532517)); // lawnmower
+}

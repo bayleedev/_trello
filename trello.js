@@ -39,7 +39,11 @@ assert('reload', h.decrypt(18728807114));
 assert('loading', h.decrypt(680541702449));
 assert('dialog', h.decrypt(18108152133));
 assert('implode', h.decrypt(677856237601));
+
+console.log('---Benchmark---');
 benchmark('decrypt', function() {
-  h.decrypt(h.decrypt('reload'));
-}, 999999);
+  h.decrypt(h.encrypt('reload'));
+}, 1000);
+
+console.log('---Answer---');
 console.log('answer: ', h.decrypt(930846109532517)); // lawnmower
